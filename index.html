@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Used</title>
+    <style>
+        /* အခြေခံ ဒီဇိုင်းနှင့် Dark Theme (Smooth ဖြစ်စေရန် ပြင်ဆင်ထားသည်) */
+        body {
+            background-color: #0d1117; 
+            color: #ffffff; 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            -webkit-font-smoothing: antialiased; /* Text ညက်ညောစေရန် */
+            -moz-osx-font-smoothing: grayscale;
+            text-rendering: optimizeLegibility; /* Text ဖတ်ရပိုကောင်းစေရန် */
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: #ffffff;
+            margin-bottom: 40px;
+            border-bottom: 2px solid #e53935;
+            padding-bottom: 10px;
+            display: inline-block;
+        }
+
+        .header-container {
+            text-align: center;
+        }
+
+        /* Card ပုံစံ ဒီဇိုင်း */
+        .prompt-card {
+            background-color: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 30px;
+            position: relative;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        .prompt-title {
+            margin-top: 0;
+            color: #e53935; 
+            font-size: 1.2rem;
+            border-bottom: 1px solid #30363d;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+
+        /* စာသားများပြသရန် နေရာ (Size ကြီးပေးထားသည်) */
+        pre {
+            background-color: #010409;
+            padding: 15px;
+            border-radius: 6px;
+            overflow-x: auto;
+            white-space: pre-wrap; 
+            font-family: 'Consolas', 'Fira Code', 'Courier New', monospace; /* ပိုရှင်းသော Font */
+            font-size: 1.1rem; /* Font Size ပိုကြီးပေးထားသည် */
+            color: #c9d1d9;
+        }
+
+        /* Copy Button အနီရောင် ဒီဇိုင်း */
+        .copy-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: #e53935;
+            color: #ffffff;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+        .copy-btn:hover {
+            background-color: #b71c1c; 
+        }
+
+        /* Command များကို တစ်ကြောင်းချင်းပြသရန် Layout */
+        .command-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .command-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #010409;
+            padding: 12px 15px;
+            border-radius: 6px;
+            border: 1px solid #30363d;
+        }
+
+        .command-item code {
+            font-family: 'Consolas', 'Fira Code', 'Courier New', monospace;
+            font-size: 1.1rem;
+            color: #c9d1d9;
+            word-break: break-all;
+            margin-right: 15px;
+        }
+
+        .copy-btn-small {
+            background-color: #e53935;
+            color: #ffffff;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 0.9rem;
+            transition: background-color 0.3s ease;
+            white-space: nowrap; /* Button ပုံစံမပျက်စေရန် */
+        }
+
+        .copy-btn-small:hover {
+            background-color: #b71c1c;
+        }
+
+        /* Toast Notification */
+        #toast {
+            visibility: hidden;
+            min-width: 250px;
+            background-color: #4caf50;
+            color: #fff;
+            text-align: center;
+            border-radius: 4px;
+            padding: 16px;
+            position: fixed;
+            z-index: 1;
+            right: 30px;
+            bottom: 30px;
+            font-size: 17px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
+
+        #toast.show {
+            visibility: visible;
+            animation: fadein 0.5s, fadeout 0.5s 2.5s;
+        }
+
+        @keyframes fadein {
+            from {bottom: 0; opacity: 0;}
+            to {bottom: 30px; opacity: 1;}
+        }
+
+        @keyframes fadeout {
+            from {bottom: 30px; opacity: 1;}
+            to {bottom: 0; opacity: 0;}
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="header-container">
+            <h1>Daily Used</h1>
+        </div>
+
+        <!-- Section 1: Flutter New App -->
+        <div class="prompt-card">
+            <h2 class="prompt-title">၁။ Flutter User App အသစ် ဖန်တီးတဲ့အခါသုံးမယ် စာ။</h2>
+            <button class="copy-btn" onclick="copyText('flutter-new')">Copy</button>
+            <pre id="flutter-new">Appတစ်ခု စတင်ရေးသားချင်ပါတယ်။
+Aiကိုမေးနေတဲ့ပုံစံထက် ငါ့ရဲ့ Companyမှာ ကျွမ်းကျင်တဲ့ Developerတစ်ယောက်ကို အလုပ်ခန့်ထားတဲ့သဘောမျိုးအလုပ်လုပ်ပေးပါ။
+ငါရေးသားချင်တဲ့ Appပုံစံ၊ သုံးမယ့် Language, သုံးမယ့် အရာအသေးစိတ်ကိုအောက်မှာရေးပေးထားပါတယ်။
+အရေးကြီးဆုံးအချက်က Codeတွေ, Commandတွေကို တန်းစီပြီးရေးပေးသွားတာမျိုးလုံးဝမလုပ်ပါနဲ့။
+Codeဖိုင်မရေးပေးခင်ငါနဲ့ ဘယ်လိုပုံစံမျိုးလိုချင်တယ်၊ ဘယ်လိုမျိုးအလုပ်လုပ်ကြမယ်ဆိုတာကို အရင်တိုင်ပင်ကြမယ်။ 
+ငါကလိုက်ရေးတဲ့အခါ Errorတက်မတက်ကို ပြန်ပြပေးမယ်၊ Errorတက်တယ်ဆိုရင် Errorကိုအရင်ဖြေရှင်းကြမယ်။
+Errorမတက်ဘူးဆိုရင် ငါက ရှေ့ဆက်သွားဖို့အတွက် "Next" လို့ပြောပေးမယ်၊"Next" လို့မပြောမချင်း Codeအသစ်လုံးဝမရေးပေးပါနဲ့။
+ငါချမှတ်ထားတဲ့ စည်းကမ်းများကို အတိအကျလိုက်နာပေးပါ။
+အရင်ဆုံး App Name, App Logo, App PackageName တွေကိုအရင်ချိန်းပါမယ်။
+App Logoအတွက်ပုံကို assets/images/ထဲမှာ logo.pngဆိုပြီးထည့်ပေးထားပါတယ်။
+App Name = "YLA TV"
+App PackageName = "com.ylatv.yla"
+App တစ်ခုလုံးအတွက် ရွေးချယ်စရာလိုအပ်လာလျှင်  အောက်ပါအချက်အလက်တွေနဲ့တည်ဆောက်ပေးပါ။
+pubspec.yaml ဖိုင်မှာ Packageတွေထည့်သွင်းဖို့လိုအပ်လာလျှင် Versionတွေကိုရမ်းမထည့်ပဲ ထည့်ရမယ့် Packageအတွက် Commandကနေ Runရမယ့် စာပဲသေသေချာချာပြပေးပါ၊ ငါကိုယ်တိုင်ထည့်မယ်။
+State Management အတွက် Riverpod ကို သုံးမယ်။
+Project Folder Structure (Architecture)အတွက် Feature-first Architecture ကိုသုံးမယ်။
+Screen တွေ ကူးဖို့ Navigation (Routing) အတွက် go_router သုံးမယ်။
+Dio ကိုသုံးမယ်။
+Dark Mode ကိုသုံးပါမယ်။( ခေတ်စားနေတဲ့ အမည်းရောင်ခပ်မှိုင်းမှိုင်း Dark Navy Blue)
+အဓိကအရောင် (Primary / Accent Color) တွေအတွက် Premium Gold လိုအရောင်မျိုးကိုသုံးပေးပါ။</pre>
+        </div>
+
+        <!-- Section 2: Flutter Continue -->
+        <div class="prompt-card">
+            <h2 class="prompt-title">၂။ Flutter User App ရေးလက်စကို ဆက်ရေးတဲ့အခါ သုံးမယ့်စာ။</h2>
+            <button class="copy-btn" onclick="copyText('flutter-continue')">Copy</button>
+            <pre id="flutter-continue">Appတစ်ခု ရေးသားထားပါတယ်၊ Errorတက်နေတဲ့အပိုင်းတွေ၊ ပြင်ဖို့လိုအပ်တဲ့အပိုင်းတွေ၊ ဆက်ရေးသားမယ့်အပိုင်းတွေအတွက် ရေးသားပေးပါ။
+Aiကိုမေးနေတဲ့ပုံစံထက် ငါ့ရဲ့ Companyမှာ ကျွမ်းကျင်တဲ့ Developerတစ်ယောက်ကို အလုပ်ခန့်ထားတဲ့သဘောမျိုးအလုပ်လုပ်ပေးပါ။
+ငါ့Projectရဲ့ Project Structureကို အရင်ဆုံးပို့ပေးထားတယ်။
+ငါ့ပို့ပေးထားတဲ့ Project Structureကို သေသေချာချာမှတ်သားထားပေးပါ။
+ပထမဆုံး ငါ့ရဲ့ Projectကိုဆက်ပြီးမရေးခင် Projectကို ကောင်းကောင်းနားလည်သွားအောင် အရင်လေ့လာဖို့အတွက် လိုအပ်တဲ့ဖိုင်တွေတောင်းပါ၊ အရင်ဆုံး Codeဖိုင်အဟောင်းတွေပို့ပေးမယ်။
+အရေးကြီးဆုံးအချက်က Codeတွေ, Commandတွေကို တန်းစီပြီးရေးပေးသွားတာမျိုးလုံးဝမလုပ်ပါနဲ့။
+Codeဖိုင်မရေးပေးခင်ငါနဲ့ ဘယ်လိုပုံစံမျိုးလိုချင်တယ်၊ ဘယ်လိုမျိုးအလုပ်လုပ်ကြမယ်ဆိုတာကို အရင်တိုင်ပင်ကြမယ်။ 
+ငါကလိုက်ရေးတဲ့အခါ Errorတက်မတက်ကို ပြန်ပြပေးမယ်၊ Errorတက်တယ်ဆိုရင် Errorကိုအရင်ဖြေရှင်းကြမယ်။
+Errorမတက်ဘူးဆိုရင် ငါက ရှေ့ဆက်သွားဖို့အတွက် "Next" လို့ပြောပေးမယ်၊"Next" လို့မပြောမချင်း Codeအသစ်လုံးဝမရေးပေးပါနဲ့။
+ငါချမှတ်ထားတဲ့ စည်းကမ်းများကို အတိအကျလိုက်နာပေးပါ။
+နောက်ထပ်အရေးအကြီးဆုံးအပိုင်းက Codeဖိုင်တွေ အပြည့်အစုံပြန်ရေးပေးတဲ့အခါမှာ 
+ငါတို့Errorတက်လို့ပြင်တဲ့အပိုင်း၊ ငါတို့လိုချင်လို့ပြင်တဲ့အပိုင်းတွေအပြင် Codeဖိုင်အဟောင်းမှာပါတဲ့ အလုပ်လုပ်နေတဲ့အပိုင်းတွေကို စစ်ဆေးပြီး လိုအပ်လျှင်ပြောပြပေးပါ၊ 
+Codeဖိုင်ထဲမှာပါတဲ့ Codeအဟောင်းတွေကို ငါ့ခွင့်ပြုချက်မရှိပဲ ချန်ထားခဲ့တာမျိုး လုံးဝမလုပ်ပါနဲ့။</pre>
+        </div>
+
+        <!-- Section 3: Laravel Admin -->
+        <div class="prompt-card">
+            <h2 class="prompt-title">၃။ PHP + Laravel AdminPannel ကို ပြင်တဲ့အခါ သုံးမယ့်စာ။</h2>
+            <button class="copy-btn" onclick="copyText('laravel-admin')">Copy</button>
+            <pre id="laravel-admin">ငါ့ရဲ့ YLA TV ဆိုတဲ့ AdminPannel Projectကို GCP VPS Serverပေါ်မှာတင်ထားပါတယ်။
+ငါ့ရဲ့ Projectကို ပြင်ဖို့အတွက် VPS Server ကို VS Codeနှင့်ချိတ်ဆက်ထားပါတယ်။
+Errorတက်နေတဲ့အပိုင်းတွေ၊ ပြင်ဖို့လိုအပ်တဲ့အပိုင်းတွေ၊ ဆက်ရေးသားမယ့်အပိုင်းတွေအတွက် ရေးသားပေးပါ။
+Aiကိုမေးနေတဲ့ပုံစံထက် ငါ့ရဲ့ Companyမှာ ကျွမ်းကျင်တဲ့ Developerတစ်ယောက်ကို အလုပ်ခန့်ထားတဲ့သဘောမျိုးအလုပ်လုပ်ပေးပါ။
+ငါ့Projectရဲ့ Project Structureကို အရင်ဆုံးပို့ပေးထားတယ်။
+ငါ့ပို့ပေးထားတဲ့ Project Structureကို သေသေချာချာမှတ်သားထားပေးပါ။
+ပထမဆုံး ငါ့ရဲ့ Projectကိုဆက်ပြီးမရေးခင် Projectကို ကောင်းကောင်းနားလည်သွားအောင် အရင်လေ့လာဖို့အတွက် လိုအပ်တဲ့ဖိုင်တွေတောင်းပါ၊ အရင်ဆုံး Codeဖိုင်အဟောင်းတွေပို့ပေးမယ်။
+အရေးကြီးဆုံးအချက်က Codeတွေ, Commandတွေကို တန်းစီပြီးရေးပေးသွားတာမျိုးလုံးဝမလုပ်ပါနဲ့။
+Codeဖိုင်မရေးပေးခင်ငါနဲ့ ဘယ်လိုပုံစံမျိုးလိုချင်တယ်၊ ဘယ်လိုမျိုးအလုပ်လုပ်ကြမယ်ဆိုတာကို အရင်တိုင်ပင်ကြမယ်။ 
+ငါကလိုက်ရေးတဲ့အခါ Errorတက်မတက်ကို ပြန်ပြပေးမယ်၊ Errorတက်တယ်ဆိုရင် Errorကိုအရင်ဖြေရှင်းကြမယ်။
+Errorမတက်ဘူးဆိုရင် ငါက ရှေ့ဆက်သွားဖို့အတွက် "Next" လို့ပြောပေးမယ်၊"Next" လို့မပြောမချင်း Codeအသစ်လုံးဝမရေးပေးပါနဲ့။
+ငါချမှတ်ထားတဲ့ စည်းကမ်းများကို အတိအကျလိုက်နာပေးပါ။
+နောက်ထပ်အရေးအကြီးဆုံးအပိုင်းက Codeဖိုင်တွေ အပြည့်အစုံပြန်ရေးပေးတဲ့အခါမှာ 
+ငါတို့Errorတက်လို့ပြင်တဲ့အပိုင်း၊ ငါတို့လိုချင်လို့ပြင်တဲ့အပိုင်းတွေအပြင် Codeဖိုင်အဟောင်းမှာပါတဲ့ အလုပ်လုပ်နေတဲ့အပိုင်းတွေကို စစ်ဆေးပြီး လိုအပ်လျှင်ပြောပြပေးပါ၊ 
+Codeဖိုင်ထဲမှာပါတဲ့ Codeအဟောင်းတွေကို ငါ့ခွင့်ပြုချက်မရှိပဲ ချန်ထားခဲ့တာမျိုး လုံးဝမလုပ်ပါနဲ့။</pre>
+        </div>
+
+        <!-- Section 4: Commands -->
+        <div class="prompt-card">
+            <h2 class="prompt-title">၄။ အသုံးများသော Command များ</h2>
+            <div class="command-list">
+                <div class="command-item">
+                    <code id="cmd1">flutter pub run build_runner build --delete-conflicting-outputs</code>
+                    <button class="copy-btn-small" onclick="copyText('cmd1')">Copy</button>
+                </div>
+                <div class="command-item">
+                    <code id="cmd2">attrib +h node_modules; attrib +h public; attrib +h .git; attrib +h vendor; tree /F /A > project_structure.txt; attrib -h node_modules; attrib -h public; attrib -h .git; attrib -h vendor</code>
+                    <button class="copy-btn-small" onclick="copyText('cmd2')">Copy</button>
+                </div>
+                <div class="command-item">
+                    <code id="cmd3">attrib +h .dart_tool; attrib +h build; attrib +h ios; attrib +h linux; attrib +h macos; attrib +h web; attrib +h windows; attrib +h .git; tree /F /A > project_structure.txt; attrib -h .dart_tool; attrib -h build; attrib -h ios; attrib -h linux; attrib -h macos; attrib -h web; attrib -h windows; attrib -h .git</code>
+                    <button class="copy-btn-small" onclick="copyText('cmd3')">Copy</button>
+                </div>
+                <div class="command-item">
+                    <code id="cmd4">sudo chown -R $USER:www-data /var/www/html</code>
+                    <button class="copy-btn-small" onclick="copyText('cmd4')">Copy</button>
+                </div>
+                <div class="command-item">
+                    <code id="cmd5">sudo chmod -R 775 /var/www/html</code>
+                    <button class="copy-btn-small" onclick="copyText('cmd5')">Copy</button>
+                </div>
+                <div class="command-item">
+                    <code id="cmd6">git reset --hard HEAD</code>
+                    <button class="copy-btn-small" onclick="copyText('cmd6')">Copy</button>
+                </div>
+                <div class="command-item">
+                    <code id="cmd7">git pull origin main</code>
+                    <button class="copy-btn-small" onclick="copyText('cmd7')">Copy</button>
+                </div>
+                <div class="command-item">
+                    <code id="cmd8">php artisan osm:import-bus-lines</code>
+                    <button class="copy-btn-small" onclick="copyText('cmd8')">Copy</button>
+                </div>
+                <div class="command-item">
+                    <code id="cmd9">php artisan osm:import-bus-stops</code>
+                    <button class="copy-btn-small" onclick="copyText('cmd9')">Copy</button>
+                </div>
+                <div class="command-item">
+                    <code id="cmd10">php artisan osm:map-routes</code>
+                    <button class="copy-btn-small" onclick="copyText('cmd10')">Copy</button>
+                </div>
+                <div class="command-item">
+                    <code id="cmd11">php artisan app:auto-high-lights</code>
+                    <button class="copy-btn-small" onclick="copyText('cmd11')">Copy</button>
+                </div>
+                <div class="command-item">
+                    <code id="cmd12">php artisan app:auto-high-lights 1</code>
+                    <button class="copy-btn-small" onclick="copyText('cmd12')">Copy</button>
+                </div>
+                <div class="command-item">
+                    <code id="cmd13">php artisan app:auto-high-lights 2</code>
+                    <button class="copy-btn-small" onclick="copyText('cmd13')">Copy</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 5: GitHub Hosting -->
+        <div class="prompt-card">
+            <h2 class="prompt-title">၅။ GitHub Websiteကို ဖန်တီးတဲ့ အခါသုံးမယ့်စာ။</h2>
+            <button class="copy-btn" onclick="copyText('github-hosting')">Copy</button>
+            <pre id="github-hosting">အောက်ကပေးထားတဲ့စာတွေကို တစ်ကြောင်းမကျန် အပြည့်အစုံ အသေးစိတ်ဖြင့် အပေါ်ကပို့ပေးထားတဲ့ ဖိုင်ထဲကပုံစံမျိုး 
+            GitHub ကို Hostingအနေနဲ့သုံးမယ့် Websiteဖိုင်တစ်ခုဖန်တီးပေးပါ။ 
+            ငါရေးပေးထားတဲ့စာတွေထဲမှာ အမှားပါနေတာတွေရှိလျှင့် အသေးစိတ်စစ်ဆေးပြီး ငါ့ကိုခွင့်တောင်းပြီးပြင်ပေးပါ။
+            Codeဖိုင်မရေးပေးခင်ငါနဲ့ ဘယ်လိုပုံစံမျိုးလိုချင်တယ်၊ ဘယ်လိုမျိုးအလုပ်လုပ်ကြမယ်ဆိုတာကို အရင်တိုင်ပင်ကြမယ်။ 
+            နောက်ထပ်အရေးအကြီးဆုံးအပိုင်းက Codeဖိုင်တွေ အပြည့်အစုံပြန်ရေးပေးတဲ့အခါမှာ 
+            ငါတို့Errorတက်လို့ပြင်တဲ့အပိုင်း၊ ငါတို့လိုချင်လို့ပြင်တဲ့အပိုင်းတွေအပြင် Codeဖိုင်အဟောင်းမှာပါတဲ့ အလုပ်လုပ်နေတဲ့အပိုင်းတွေကို စစ်ဆေးပြီး လိုအပ်လျှင်ပြောပြပေးပါ၊ 
+            Codeဖိုင်ထဲမှာပါတဲ့ Codeအဟောင်းတွေကို ငါ့ခွင့်ပြုချက်မရှိပဲ ချန်ထားခဲ့တာမျိုး လုံးဝမလုပ်ပါနဲ့။</pre>
+        </div>
+
+        <!-- Section 6: PHP Commands -->
+        <div class="prompt-card">
+            <h2 class="prompt-title">၆။ PHP Project ကို localhostတွင် Runနည်း</h2>
+            <div class="command-list">
+                <div class="command-item">
+                    <code id="cmd14">composer install</code>
+                    <button class="copy-btn-small" onclick="copyText('cmd14')">Copy</button>
+                </div>
+                <div class="command-item">
+                    <code id="cmd15">composer install --ignore-platform-req=php</code>
+                    <button class="copy-btn-small" onclick="copyText('cmd15')">Copy</button>
+                </div>
+                <div class="command-item">
+                    <code id="cmd16">php artisan key:generate</code>
+                    <button class="copy-btn-small" onclick="copyText('cmd16')">Copy</button>
+                </div>
+                <div class="command-item">
+                    <code id="cmd17">php artisan migrate</code>
+                    <button class="copy-btn-small" onclick="copyText('cmd17')">Copy</button>
+                </div>
+                <div class="command-item">
+                    <code id="cmd18">php artisan migrate:fresh</code>
+                    <button class="copy-btn-small" onclick="copyText('cmd18')">Copy</button>
+                </div>
+                <div class="command-item">
+                    <code id="cmd19">npm install</code>
+                    <button class="copy-btn-small" onclick="copyText('cmd19')">Copy</button>
+                </div>
+                <div class="command-item">
+                    <code id="cmd20">npm run dev</code>
+                    <button class="copy-btn-small" onclick="copyText('cmd20')">Copy</button>
+                </div>
+                <div class="command-item">
+                    <code id="cmd21">php artisan serve --host=0.0.0.0 --port=8000</code>
+                    <button class="copy-btn-small" onclick="copyText('cmd21')">Copy</button>
+                </div>
+                <div class="command-item">
+                    <code id="cmd22">php artisan serve</code>
+                    <button class="copy-btn-small" onclick="copyText('cmd22')">Copy</button>
+                </div>
+                <div class="command-item">
+                    <code id="cmd23">cd /var/www/html</code>
+                    <button class="copy-btn-small" onclick="copyText('cmd23')">Copy</button>
+                </div>
+                <div class="command-item">
+                    <code id="cmd24">php artisan tinker</code>
+                    <button class="copy-btn-small" onclick="copyText('cmd24')">Copy</button>
+                </div>
+                <div class="command-item">
+                    <code id="cmd25">$user = new App\Models\User();</code>
+                    <button class="copy-btn-small" onclick="copyText('cmd25')">Copy</button>
+                </div>
+                <div class="command-item">
+                    <code id="cmd26">$user->name = 'Admin';</code>
+                    <button class="copy-btn-small" onclick="copyText('cmd26')">Copy</button>
+                </div>
+                <div class="command-item">
+                    <code id="cmd27">$user->email = 'admin@gmail.com';</code>
+                    <button class="copy-btn-small" onclick="copyText('cmd27')">Copy</button>
+                </div>
+                <div class="command-item">
+                    <code id="cmd28">$user->password = Hash::make('123456');</code>
+                    <button class="copy-btn-small" onclick="copyText('cmd28')">Copy</button>
+                </div>
+                <div class="command-item">
+                    <code id="cmd29">$user->save();</code>
+                    <button class="copy-btn-small" onclick="copyText('cmd29')">Copy</button>
+                </div>
+                <div class="command-item">
+                    <code id="cmd30">exit</code>
+                    <button class="copy-btn-small" onclick="copyText('cmd30')">Copy</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 7: Flutter Commands -->
+        <div class="prompt-card">
+            <h2 class="prompt-title">Flutter Command များ</h2>
+            <div class="command-list">
+                <div class="command-item">
+                    <code id="cmd31">flutter clean</code>
+                    <button class="copy-btn-small" onclick="copyText('cmd31')">Copy</button>
+                </div>
+                <div class="command-item">
+                    <code id="cmd32">flutter pub get</code>
+                    <button class="copy-btn-small" onclick="copyText('cmd32')">Copy</button>
+                </div>
+                <div class="command-item">
+                    <code id="cmd33">flutter run</code>
+                    <button class="copy-btn-small" onclick="copyText('cmd33')">Copy</button>
+                </div>
+                <div class="command-item">
+                    <code id="cmd34">flutter build apk --release</code>
+                    <button class="copy-btn-small" onclick="copyText('cmd34')">Copy</button>
+                </div>
+                <div class="command-item">
+                    <code id="cmd35">flutter build bunnel --release</code>
+                    <button class="copy-btn-small" onclick="copyText('cmd35')">Copy</button>
+                </div>
+                <div class="command-item">
+                    <code id="cmd36">flutter build windows --release</code>
+                    <button class="copy-btn-small" onclick="copyText('cmd36')">Copy</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 8: Domains / Links -->
+        <div class="prompt-card">
+            <h2 class="prompt-title">GitHub အသုံးပြုနည်း</h2>
+            <div class="command-list">
+                <div class="command-item">
+                    <code id="cmd37">github.yelinnaung.com</code>
+                    <button class="copy-btn-small" onclick="copyText('cmd37')">Copy</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="prompt-card">
+            <h2 class="prompt-title">3X Ui Server ထောင်နည်း</h2>
+            <div class="command-list">
+                <div class="command-item">
+                    <code id="cmd38">3xui.yelinnaung.com</code>
+                    <button class="copy-btn-small" onclick="copyText('cmd38')">Copy</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="prompt-card">
+            <h2 class="prompt-title">Larvelကို Digital Oceanတွင် Server ထောင်နည်း</h2>
+            <div class="command-list">
+                <div class="command-item">
+                    <code id="cmd39">laravel.yelinnaung.com</code>
+                    <button class="copy-btn-small" onclick="copyText('cmd39')">Copy</button>
+                </div>
+            </div>
+        </div>
+        <div class="prompt-card">
+            <h2 class="prompt-title">Larvelကို GCPတွင် Server ထောင်နည်း</h2>
+            <div class="command-list">
+                <div class="command-item">
+                    <code id="cmd40">gcplaravel.yelinnaung.com</code>
+                    <button class="copy-btn-small" onclick="copyText('cmd40')">Copy</button>
+                </div>
+            </div>
+        </div>
+        <div class="prompt-card">
+            <h2 class="prompt-title">Python Server ထောင်နည်း</h2>
+            <div class="command-list">
+                <div class="command-item">
+                    <code id="cmd41">python.yelinnaung.com</code>
+                    <button class="copy-btn-small" onclick="copyText('cmd41')">Copy</button>
+                </div>
+            </div>
+        </div>
+        <div class="prompt-card">
+            <h2 class="prompt-title">Perfect VPN Server ထောင်နည်း</h2>
+            <div class="command-list">
+                <div class="command-item">
+                    <code id="cmd42">perfect.yelinnaung.com</code>
+                    <button class="copy-btn-small" onclick="copyText('cmd42')">Copy</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Copied Alert ပြသရန် -->
+    <div id="toast">စာသားများကို Copy ကူးယူပြီးပါပြီ!</div>
+
+    <script>
+        // Copy ကူးမည့် JavaScript Function (pre နှင့် code နှစ်ခုလုံးအတွက် အလုပ်လုပ်သည်)
+        function copyText(elementId) {
+            var copyText = document.getElementById(elementId).innerText;
+            
+            navigator.clipboard.writeText(copyText).then(function() {
+                var toast = document.getElementById("toast");
+                toast.className = "show";
+                
+                setTimeout(function(){ 
+                    toast.className = toast.className.replace("show", ""); 
+                }, 3000);
+            }, function(err) {
+                console.error('Copy ကူးယူရာတွင် အခက်အခဲရှိနေပါသည်: ', err);
+                alert("Copy ကူးယူရာတွင် အခက်အခဲရှိနေပါသည်။");
+            });
+        }
+    </script>
+</body>
+</html>
